@@ -9,7 +9,7 @@ export default {
   name: 'teleport',
   props: {
     to: {
-      type: String,
+      type: [String, HTMLDivElement], // Accept both String and HTMLElement
       required: true,
     },
     where: {
@@ -82,7 +82,7 @@ export default {
     move() {
       this.waiting = false;
 
-      const parent = document.querySelector(this.to);
+      const parent = this.to instanceof HTMLElement ? this.to : document.querySelector(this.to);
 
       if (!parent) {
         this.disable();
@@ -136,8 +136,8 @@ export default {
       }
     },
     bootObserver() {
-      if (this.observer) {
-        return;
+      if (this.observer || this.to instanceof HTMLElement) {
+        return; // Skip DOM observer if `to` is already an HTMLElement
       }
 
       this.observer = new MutationObserver(mutations => this.onMutations(mutations));

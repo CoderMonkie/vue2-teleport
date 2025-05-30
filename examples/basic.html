@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue2 Teleport Demo</title>
+  <script src="https://unpkg.com/vue@2.6"></script>
+  <style>
+    .target {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>Basic Usage</h2>
+    
+    <!-- Example 1: String selector -->
+    <teleport to="#target1">
+      <div class="content">Teleported Content (String Selector)</div>
+    </teleport>
+
+    <div id="target1" class="target">Target Container 1</div>
+
+    <hr>
+
+    <h2>Dynamic Target</h2>
+    
+    <!-- Example 2: HTMLElement -->
+    <teleport :to="targetElement">
+      <div class="content">Teleported Content (HTMLElement)</div>
+    </teleport>
+
+    <div id="target2" class="target">Target Container 2</div>
+
+    <hr>
+
+    <h2>Disabled Mode</h2>
+    
+    <!-- Example 3: Disabled state -->
+    <teleport to="#target3" disabled>
+      <div class="content">This should NOT be teleported</div>
+    </teleport>
+
+    <div id="target3" class="target">Target Container 3</div>
+  </div>
+
+  <!-- Mount component -->
+  <script src="/dist/teleport.umd.js"></script>
+  <script>
+    console.log(window)
+    new Vue({
+      el: '#app',
+      components: {
+        // Teleport: window['vue2-teleport-teleport']
+      },
+      data() {
+        return {
+          targetElement: null
+        };
+      },
+      mounted() {
+        this.targetElement = document.getElementById('target2');
+      },
+
+    });
+  </script>
+</body>
+</html>
